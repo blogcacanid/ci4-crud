@@ -23,12 +23,23 @@ class Pegawai extends BaseController {
 
     public function add()
     {
-        $data = ['title' => 'Add Record Pegawai'];
+        session();
+        $data = [
+            'title' => 'Add Record Pegawai',
+            'validation' => \Config\Services::validation()
+        ];
         return view('pegawai/add', $data);
     }    
     
     public function store()
     {
+        if (!$this->validate([
+            'nip'           => 'required|min_length[5]|max_length[15]|is_unique[pegawai.nip]',
+            'nama_pegawai'  => 'required',
+            'alamat'        => 'required'
+        ])){
+            return redirect()->to('/pegawai/add')->withInput();
+        }
         $nip = $this->request->getPost('nip');
         $nama_pegawai = $this->request->getPost('nama_pegawai');
         $alamat = $this->request->getPost('alamat');
@@ -63,6 +74,7 @@ class Pegawai extends BaseController {
     
     public function edit($id)
     {
+        session();
         $pegawai = $this->model->find($id);
         if (empty($pegawai)) {
             session()->setFlashdata('error','Record not found');
@@ -70,17 +82,24 @@ class Pegawai extends BaseController {
         }
         $data = [
             'title'     => 'Edit Pegawai',
-            'result'    => $pegawai
+            'result'    => $pegawai,
+            'validation' => \Config\Services::validation()
         ];
         return view('pegawai/edit', $data);
     }    
     
     public function update($id)
     {
+        if (!$this->validate([
+            'nip'           => 'required|min_length[5]|max_length[15]|is_unique[pegawai.nip,pegawai_id,{pegawai_id}]',
+            'nama_pegawai'  => 'required',
+            'alamat'        => 'required'
+        ])){
+            return redirect()->back()->withInput();
+        }
         $nip = $this->request->getPost('nip');
         $nama_pegawai = $this->request->getPost(('nama_pegawai'));
         $alamat = $this->request->getPost('alamat');
-
         $pegawai = [
             'nip'           => $nip,
             'nama_pegawai'  => $nama_pegawai,

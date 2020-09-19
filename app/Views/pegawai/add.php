@@ -8,30 +8,31 @@
                     <?= $title ?>
                 </div>
                 <div class="card-body">
-                    <?php if (session()->getFlashdata('success')) { ?>
-                        <div class="alert alert-success">
-                            <?php echo session()->getFlashdata('success'); ?>
-                        </div>
-                    <?php } ?>
-
-                    <?php if (session()->getFlashdata('error')) { ?>
-                        <div class="alert alert-danger">
-                            <?php echo session()->getFlashdata('error'); ?>
-                        </div>
-                    <?php } ?>
-
                     <?= form_open('pegawai/store'); ?>
+                    <?= csrf_field(); ?>
                     <div class="form-group">
                         <label for="nip">NIP</label>
-                        <input type="text" name="nip" class="form-control" required>
+                        <input type="text" name="nip" class="form-control <?= ($validation->hasError('nip')) ? 'is-invalid' : ''; ?>"
+                                value="<?= old('nip'); ?>">
+                        <div class="invalid-feedback">
+                            <?= $validation->getError('nip'); ?>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="nama_pegawai">Nama Pegawai</label>
-                        <input type="text" name="nama_pegawai" class="form-control" required>
+                        <input type="text" name="nama_pegawai" class="form-control <?= ($validation->hasError('nama_pegawai')) ? 'is-invalid' : ''; ?>"
+                                value="<?= old('nama_pegawai'); ?>">
+                        <div class="invalid-feedback">
+                            <?= $validation->getError('nama_pegawai'); ?>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="alamat">Alamat</label>
-                        <textarea name="alamat" id="alamat" class="form-control" required></textarea>
+                        <input type="text" name="alamat" class="form-control <?= ($validation->hasError('alamat')) ? 'is-invalid' : ''; ?>"
+                                value="<?= old('alamat'); ?>">
+                        <div class="invalid-feedback">
+                            <?= $validation->getError('alamat'); ?>
+                        </div>
                     </div>
                     <div class="form-group">
                         <a href="<?= base_url('pegawai') ?>" class="btn btn-primary"><i class="fa fa-arrow-circle-left"></i>&nbsp;Back</a>

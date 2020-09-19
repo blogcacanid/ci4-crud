@@ -11,13 +11,4 @@ class M_Pegawai extends Model
     protected $useTimestamps = true;
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';
-    
-    protected $validationRules = [
-        'nip'           => 'required|min_length[5]|max_length[15]',
-        'nama_pegawai'  => 'required|max_length[30]',
-        'alamat'        => 'required'
-    ];
-
-    protected $skipValidation = false;
-
 }
